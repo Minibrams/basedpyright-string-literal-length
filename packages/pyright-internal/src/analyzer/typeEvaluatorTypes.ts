@@ -534,6 +534,7 @@ export interface PrintTypeOptions {
     omitTypeArgsIfUnknown?: boolean;
     importTracker?: ImportTracker;
     maxLiteralStringLength?: number;
+    disableMaxLiteralStringLength?: boolean;
 }
 
 export interface DeclaredSymbolTypeInfo {

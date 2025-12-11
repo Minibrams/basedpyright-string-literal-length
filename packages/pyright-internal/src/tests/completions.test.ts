@@ -1956,36 +1956,27 @@ test('string literal length is respected', async () => {
     const uri = Uri.file(filePath, state.serviceProvider);
     const position = state.convertOffsetToPosition(filePath, marker.position);
 
-    const cases: [number, string[]][] = [
-        [5, ['12345…']],
-        [20, ['123456789', '123456789_123456789_…']],
-        [100, ['123456789', '123456789_123456789_123456789']],
-    ];
+    const options: CompletionOptions = {
+        format: 'markdown',
+        snippet: false,
+        lazyEdit: false,
+        triggerCharacter: '"',
+        checkDeprecatedWhenResolving: false,
+        useTypingExtensions: false,
+    };
 
-    for (const [length, completions] of cases) {
-        const options: CompletionOptions = {
-            format: 'markdown',
-            snippet: false,
-            lazyEdit: false,
-            triggerCharacter: '"',
-            checkDeprecatedWhenResolving: false,
-            useTypingExtensions: false,
-            maxLiteralStringLength: length,
-        };
+    const result = new CompletionProvider(
+        state.program,
+        uri,
+        position,
+        options,
+        CancellationToken.None,
+        false
+    ).getCompletions();
 
-        const result = new CompletionProvider(
-            state.program,
-            uri,
-            position,
-            options,
-            CancellationToken.None,
-            false
-        ).getCompletions();
-
-        assert(result);
-        for (const label of completions) {
-            const item = result.items.find((a) => a.label === `"${label}"`);
-            assert(item, `Expected to find completion item with label "${label}" for maxLiteralStringLength=${length}`);
-        }
+    assert(result);
+    for (const label of ['123456789', '123456789_123456789_123456789']) {
+        const item = result.items.find((a) => a.label === `"${label}"`);
+        assert(item, `Expected to find completion item with label "${label}"`);
     }
 });

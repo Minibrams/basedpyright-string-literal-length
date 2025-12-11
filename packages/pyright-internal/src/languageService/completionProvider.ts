@@ -254,7 +254,6 @@ export interface CompletionOptions {
     readonly triggerCharacter?: string;
     readonly checkDeprecatedWhenResolving: boolean;
     readonly useTypingExtensions: boolean;
-    readonly maxLiteralStringLength?: number;
 }
 
 interface RecentCompletionInfo {
@@ -2223,7 +2222,9 @@ export class CompletionProvider {
         const quoteValue = this._getQuoteInfo(priorWord, priorText);
         this._getSubTypesWithLiteralValues(type).forEach((v) => {
             if (ClassType.isBuiltIn(v, 'str')) {
-                const value = printLiteralValue(v, quoteValue.quoteCharacter, this.options);
+                const value = printLiteralValue(v, quoteValue.quoteCharacter, {
+                    disableMaxLiteralStringLength: true,
+                });
                 if (quoteValue.stringValue === undefined) {
                     this.addNameToCompletions(value, CompletionItemKind.Constant, priorWord, completionMap, {
                         sortText: this._makeSortText(SortCategory.LiteralValue, v.priv.literalValue as string),
@@ -2335,11 +2336,9 @@ export class CompletionProvider {
                 }
 
                 keys.push(
-                    printLiteralValue(
-                        v,
-                        this.parseResults.tokenizerOutput.predominantSingleQuoteCharacter,
-                        this.options
-                    )
+                    printLiteralValue(v, this.parseResults.tokenizerOutput.predominantSingleQuoteCharacter, {
+                        disableMaxLiteralStringLength: true,
+                    })
                 );
             });
 

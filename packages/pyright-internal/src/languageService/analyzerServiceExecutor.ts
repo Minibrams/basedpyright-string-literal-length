@@ -161,10 +161,6 @@ export function getEffectiveCommandLineOptions(
             serverSettings.fileEnumerationTimeoutInSec;
     }
 
-    if (serverSettings.maxLiteralStringLength !== undefined) {
-        commandLineOptions.languageServerSettings.maxLiteralStringLength = serverSettings.maxLiteralStringLength;
-    }
-
     if (typeStubTargetImportName) {
         commandLineOptions.languageServerSettings.typeStubTargetImportName = typeStubTargetImportName;
     }
