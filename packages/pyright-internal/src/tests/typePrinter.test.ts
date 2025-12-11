@@ -203,13 +203,11 @@ test('LiteralStringTruncation', () => {
         '123456789012345678901234567890123456789012345678901234567890'
     );
 
-    const truncated = printType(literalStringType, PrintTypeFlags.PythonSyntax, returnTypeCallback, {
-        maxLiteralStringLength: 10,
-    });
+    const truncated = printType(literalStringType, PrintTypeFlags.PythonSyntax, returnTypeCallback);
     assert.strictEqual(truncated, 'LiteralString');
 
     const full = printType(literalStringType, PrintTypeFlags.PythonSyntax, returnTypeCallback, {
-        maxLiteralStringLength: 100,
+        preserveStringLiterals: true,
     });
     assert.strictEqual(full, "Literal['123456789012345678901234567890123456789012345678901234567890']");
 });

@@ -128,7 +128,6 @@ export class TestLanguageService implements LanguageServerInterface {
             searchPathsToWatch: [],
             useTypingExtensions: false,
             fileEnumerationTimeoutInSec: 10,
-            maxLiteralStringLength: undefined,
             autoFormatStrings: true,
         };
     }
