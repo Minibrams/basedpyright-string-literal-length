@@ -100,7 +100,6 @@ export interface Workspace extends WorkspaceFolder {
     isInitialized: InitStatus;
     searchPathsToWatch: Uri[];
     inlayHints?: InlayHintSettings | undefined;
-    maxLiteralStringLength: number | undefined;
     useTypingExtensions: boolean;
     fileEnumerationTimeoutInSec: number;
     autoFormatStrings: boolean;
@@ -305,7 +304,6 @@ export class WorkspaceFactory implements IWorkspaceFactory {
             searchPathsToWatch: [],
             useTypingExtensions: false,
             fileEnumerationTimeoutInSec: 10,
-            maxLiteralStringLength: undefined,
             autoFormatStrings: true,
         };
 

@@ -254,7 +254,6 @@ export interface CompletionOptions {
     readonly triggerCharacter?: string;
     readonly checkDeprecatedWhenResolving: boolean;
     readonly useTypingExtensions: boolean;
-    readonly maxLiteralStringLength?: number;
 }
 
 interface RecentCompletionInfo {
@@ -1808,6 +1807,7 @@ export class CompletionProvider {
             const text = this.evaluator.printType(memberType, {
                 enforcePythonSyntax: true,
                 expandTypeAlias: false,
+                preserveStringLiterals: true,
             });
 
             this.addNameToCompletions(text, CompletionItemKind.Reference, priorWord, completionMap, {

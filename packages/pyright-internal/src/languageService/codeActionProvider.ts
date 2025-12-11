@@ -87,7 +87,6 @@ export class CodeActionProvider {
                     // (we don't call resolveCompletionItem)
                     checkDeprecatedWhenResolving: true,
                     useTypingExtensions: workspace.useTypingExtensions,
-                    maxLiteralStringLength: workspace.maxLiteralStringLength,
                 },
                 token,
                 true

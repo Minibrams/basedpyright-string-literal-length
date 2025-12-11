@@ -158,23 +158,17 @@ export function printObjectTypeForClass(
 
 export interface TypePrintOptions {
     importTracker?: ImportTracker;
-    maxLiteralStringLength?: number;
+    preserveStringLiterals?: boolean;
 }
 
 const defaultMaxLiteralStringLength = 50;
 
-function getMaxLiteralStringLength(options?: TypePrintOptions) {
-    const maxLiteralStringLength = options?.maxLiteralStringLength;
-
-    if (maxLiteralStringLength && maxLiteralStringLength > 0) {
-        return maxLiteralStringLength;
+export function isLiteralValueTruncated(type: ClassType, options?: TypePrintOptions): boolean {
+    if (options?.preserveStringLiterals) {
+        return false;
     }
 
-    return defaultMaxLiteralStringLength;
-}
-
-export function isLiteralValueTruncated(type: ClassType, options?: TypePrintOptions): boolean {
-    const maxLiteralStringLength = getMaxLiteralStringLength(options);
+    const maxLiteralStringLength = defaultMaxLiteralStringLength;
 
     if (typeof type.priv.literalValue === 'string') {
         if (type.priv.literalValue.length > maxLiteralStringLength) {
@@ -207,11 +201,11 @@ export function printLiteralValue(type: ClassType, quotation = "'", options?: Ty
     let literalStr: string;
     if (typeof literalValue === 'string') {
         let effectiveLiteralValue = literalValue;
-        const maxLiteralStringLength = getMaxLiteralStringLength(options);
-
-        // Limit the length of the string literal.
-        if (literalValue.length > maxLiteralStringLength) {
-            effectiveLiteralValue = literalValue.substring(0, maxLiteralStringLength) + '…';
+        if (!options?.preserveStringLiterals) {
+            // Limit the length of the string literal.
+            if (literalValue.length > defaultMaxLiteralStringLength) {
+                effectiveLiteralValue = literalValue.substring(0, defaultMaxLiteralStringLength) + '…';
+            }
         }
 
         if (type.shared.name === 'bytes') {

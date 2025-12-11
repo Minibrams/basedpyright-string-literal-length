@@ -216,7 +216,6 @@ export class TestState {
             searchPathsToWatch: [],
             useTypingExtensions: false,
             fileEnumerationTimeoutInSec: 10,
-            maxLiteralStringLength: undefined,
             autoFormatStrings: true,
         };
 
